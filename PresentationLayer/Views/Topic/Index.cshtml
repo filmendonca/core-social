@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "Topic list";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Main content area -->
+        <div class="col-md-8">
+            <h1 class="mb-4">Discussion on "Your Topic"</h1>
+
+            <!-- Post 1 -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Post Title 1</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Posted by User1 | 2 hours ago</h6>
+                    <p class="card-text">This is the content of the first post. It discusses various aspects of the topic and encourages discussion.</p>
+                    <a href="#" class="card-link">Comments (10)</a>
+                    <a href="#" class="card-link">Upvote</a>
+                </div>
+            </div>
+
+            <!-- Post 2 -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Post Title 2</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Posted by User2 | 1 hour ago</h6>
+                    <p class="card-text">This is the content of the second post. It dives into different viewpoints within the topic, inviting others to weigh in.</p>
+                    <a href="#" class="card-link">Comments (5)</a>
+                    <a href="#" class="card-link">Upvote</a>
+                </div>
+            </div>
+
+            <!-- Post 3 -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Post Title 3</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Posted by User3 | 30 minutes ago</h6>
+                    <p class="card-text">Content of the third post goes here. It's engaging and aimed at sparking further conversation.</p>
+                    <a href="#" class="card-link">Comments (7)</a>
+                    <a href="#" class="card-link">Upvote</a>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Sidebar area -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Related Topics</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="#">Related Topic 1</a></li>
+                        <li class="list-group-item"><a href="#">Related Topic 2</a></li>
+                        <li class="list-group-item"><a href="#">Related Topic 3</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Join the Discussion</h5>
+                    <form>
+                        <div class="form-group">
+                            <label for="postTitle">Post Title</label>
+                            <input type="text" class="form-control" id="postTitle" placeholder="Enter post title">
+                        </div>
+                        <div class="form-group">
+                            <label for="postContent">Content</label>
+                            <textarea class="form-control" id="postContent" rows="3" placeholder="Write something..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

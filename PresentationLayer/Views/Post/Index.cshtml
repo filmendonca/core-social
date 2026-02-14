@@ -1,0 +1,287 @@
+﻿@using PresentationLayer.ViewModels;
+@using Utils.Models;
+@using DataLayer.Enums;
+
+@model PaginatedList<PostListVM>
+<!--Show error msg-->
+@*@if (TempData["Error"] != null)
+    {
+        <div class="col-md-12 alert alert-danger">
+            <span>@TempData["Error"] </span>
+        </div>
+    }*@
+
+@{
+    ViewData["Title"] = "Posts";
+}
+
+<!--Show total results from query-->
+@if (TempData["NumOfResults"] != null)
+{
+    <div class="col-md-12 alert alert-info">
+        <span>The number of results returned was: @TempData["NumOfResults"] </span>
+    </div>
+}
+
+<div class="container mt-5">
+    <div class="row">
+
+        <!-- Left sidebar column -->
+        <div class="col-md-4">
+
+            <div class="position-sticky" style="top:20px">
+
+                <!-- Topics -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Topics</h5>
+                        <ul class="list-group list-group-flush">
+                            @foreach (var topic in Enum.GetValues(typeof(TopicName)).Cast<TopicName>())
+                            {
+                                <li class="list-group-item">
+                                    <a asp-action="Index" asp-route-topic="@topic">@topic.ToString()</a>
+                                    @if ((string)ViewData["Topic"] == topic.ToString())
+                                    {
+                                        <span class="badge bg-primary ms-2">Active</span>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Sorting -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Sort Posts</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <a asp-action="Index"
+                                   asp-route-sort="@ViewData["NameAscSortParam"]"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                                    Name ↑
+                                </a>
+                                @if ((string)ViewData["Sort"] == ViewData["NameAscSortParam"]?.ToString())
+                                {
+                                    <span class="badge bg-primary ms-2">Active</span>
+                                }
+                            </li>
+                            <li class="list-group-item">
+                                <a asp-action="Index"
+                                   asp-route-sort="@ViewData["NameDescSortParam"]"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                                    Name ↓
+                                </a>
+                                @if ((string)ViewData["Sort"] == ViewData["NameDescSortParam"]?.ToString())
+                                {
+                                    <span class="badge bg-primary ms-2">Active</span>
+                                }
+                            </li>
+                            <li class="list-group-item">
+                                <a asp-action="Index"
+                                   asp-route-sort="@ViewData["PopAscSortParm"]"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                                    Popularity ↑
+                                </a>
+                                @if ((string)ViewData["Sort"] == ViewData["PopAscSortParm"]?.ToString())
+                                {
+                                    <span class="badge bg-primary ms-2">Active</span>
+                                }
+                            </li>
+                            <li class="list-group-item">
+                                <a asp-action="Index"
+                                   asp-route-sort="@ViewData["PopDescSortParm"]"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                                    Popularity ↓
+                                </a>
+                                @if ((string)ViewData["Sort"] == ViewData["PopDescSortParm"]?.ToString())
+                                {
+                                    <span class="badge bg-primary ms-2">Active</span>
+                                }
+                            </li>
+                            <li class="list-group-item">
+                                <a asp-action="Index"
+                                   asp-route-sort="@ViewData["DateAscSortParam"]"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                                    Date ↑
+                                </a>
+                                @if ((string)ViewData["Sort"] == ViewData["DateAscSortParam"]?.ToString())
+                                {
+                                    <span class="badge bg-primary ms-2">Active</span>
+                                }
+                            </li>
+                            <li class="list-group-item">
+                                <a asp-action="Index"
+                                   asp-route-sort="@ViewData["DateDescSortParam"]"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                                    Date ↓
+                                </a>
+                                @if ((string)ViewData["Sort"] == ViewData["DateDescSortParam"]?.ToString())
+                                {
+                                    <span class="badge bg-primary ms-2">Active</span>
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Posts column -->
+        <div class="col-md-8">
+
+            <div class="d-flex flex-wrap align-items-center mb-3 gap-3">
+                <!-- Search form -->
+                <form asp-action="Index" method="get" class="flex-grow-1" style="margin-right:5%">
+                    <div class="input-group">
+                        <input type="text" name="search" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Search posts..." />
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-search"></i> Search
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Insert post button -->
+                <a class="btn btn-info ms-2" asp-controller="Post" asp-action="Create">
+                    <i class="fa fa-plus"></i> Insert new post
+                </a>
+            </div>
+
+            @{ if (Model.Any())
+                {
+                    foreach (var post in Model)
+                    {
+                        <div class="post mb-4 p-3 border rounded">
+                            <div class="post-title">
+                                <a asp-action="View" asp-route-id="@post.Id">@post.Title</a>
+                            </div>
+
+                            <div class="post-meta mb-2">
+                                @if (post.UserId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                {
+                                    <span>
+                                        Posted by
+                                        <a asp-controller="Profile" asp-action="Other"
+                                           asp-route-username="@post.Username" class="text-primary">
+                                            @post.Username
+                                        </a> on @post.DateCreated
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>
+                                        Posted by <a asp-controller="Profile" asp-action="Index"
+                                                     class="text-primary">You</a> on @post.DateCreated
+                                                </span>
+                                            }
+                                @if (post.IsEdited)
+                                {
+                                    <span class="ms-2 text-muted">| Last edited: @post.DateUpdated</span>
+                                }
+                            </div>
+
+                            <hr />
+
+                            <div class="post-content mb-2">
+                                <p>@post.Content</p>
+                                @if (!string.IsNullOrEmpty(post.ImageUrl))
+                                {
+                                    <div class="text-center">
+                                        <img src="~/@post.ImageUrl" class="img-fluid" alt="Image of @post.Title" />
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="interaction-buttons mb-2">
+                                <button class="btn btn-outline-primary btn-sm">Upvote</button>
+                                <button class="btn btn-outline-danger btn-sm">Downvote</button>
+                                <button class="btn btn-outline-info btn-sm">Comment</button>
+                                <button class="btn btn-outline-success btn-sm">Share</button>
+                            </div>
+
+                            <p class="badge bg-secondary">@post.Topic</p>
+
+                            <hr />
+
+                            @if (post.NumOfComments > 0)
+                            {
+                                <span><i title="Comments" class="fa fa-lg fa-comment"></i> @post.NumOfComments</span>
+                            }
+                            else
+                            {
+                                <span class="text-secondary">This post has no comments</span>
+                            }
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>No posts retrieved.</p>
+                }
+
+            }
+
+            <!--Pagination-->
+
+            @{
+                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+            }
+
+            @*<div class="text-center">
+                    <a asp-action="Index"
+                       asp-route-page="@(Model.PageIndex - 1)"
+                       asp-route-sort="@ViewData["Sort"]"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       class="btn btn-default me-2 @prevDisabled">
+                        Previous
+                    </a>
+                    <a asp-action="Index"
+                       asp-route-page="@(Model.PageIndex + 1)"
+                       asp-route-sort="@ViewData["Sort"]"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       class="btn btn-default @nextDisabled">
+                        Next
+                    </a>
+                </div>*@
+
+            <nav aria-label="Page navigation" class="d-flex justify-content-center mt-3">
+                <ul class="pagination">
+                    <!-- Previous button -->
+                    <li class="page-item @(Model.PageIndex <= 1 ? "disabled" : "")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-page="@(Model.PageIndex - 1)"
+                           asp-route-sort="@ViewData["Sort"]"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           tabindex="-1">
+                            Previous
+                        </a>
+                    </li>
+
+                    <!-- Current page -->
+                    <li class="page-item active">
+                        <span class="page-link">@Model.PageIndex</span>
+                    </li>
+
+                    <!-- Next button -->
+                    <li class="page-item @(Model.PageIndex >= Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-page="@(Model.PageIndex + 1)"
+                           asp-route-sort="@ViewData["Sort"]"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                            Next
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!--End Pagination-->
+
+        </div>
+
+    </div> <!-- row -->
+</div> <!-- container -->

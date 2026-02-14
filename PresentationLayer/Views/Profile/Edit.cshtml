@@ -1,0 +1,228 @@
+﻿@using DataLayer.Enums;
+
+@model ProfileEditVM
+
+@{
+    ViewData["Title"] = "Edit your personal data";
+}
+
+<div class="container">
+    <div class="row flex-lg-nowrap">
+        @*<div class="col-12 col-lg-auto mb-3" style="width: 200px;">
+                <div class="card p-3">
+                    <div class="e-navlist e-navlist--active-bg">
+                        <ul class="nav">
+                            <li class="nav-item"><a class="nav-link px-2 active" href="#"><i class="fa fa-fw fa-bar-chart mr-1"></i><span>Overview</span></a></li>
+                            <li class="nav-item"><a class="nav-link px-2" href="https://www.bootdey.com/snippets/view/bs4-crud-users" target="__blank"><i class="fa fa-fw fa-th mr-1"></i><span>CRUD</span></a></li>
+                            <li class="nav-item"><a class="nav-link px-2" href="https://www.bootdey.com/snippets/view/bs4-edit-profile-page" target="__blank"><i class="fa fa-fw fa-cog mr-1"></i><span>Settings</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>*@
+
+        <div class="col">
+            <div class="row">
+                <div class="col mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="e-profile">
+                                <div class="row">
+                                    <div class="col-12 col-sm-auto mb-3">
+                                        <div class="mx-auto" style="width: 140px;">
+
+                                            <img class="d-flex justify-content-center align-items-center rounded" style="height: 140px;"
+                                                 src="~/@Model.AvatarUrl" alt="Image of @Model.UserName" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                        <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                            <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">@Model.CurrentUserName</h4>
+                                            @*<p class="mb-0">johnny.s</p>
+                                                <div class="text-muted"><small>Last seen 2 hours ago</small></div>*@
+                                            <div class="mt-2">
+
+                                                <form asp-action="UploadAvatar" enctype="multipart/form-data" method="post">
+                                                    @Html.AntiForgeryToken()
+                                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                                    <div class="form-group">
+                                                        <label asp-for="Avatar.Image" class="control-label"></label>
+                                                        <input asp-for="Avatar.Image" type="file" accept=".png, .jpg, .jpeg, .gif"
+                                                               class="form-control" id="Image" name="Image" />
+                                                        <small id="errorMessage" class="text-danger" style="display: none;"></small>
+                                                        <span asp-validation-for="Avatar.Image" class="text-danger"></span>
+                                                    </div>
+
+                                                    <button class="btn btn-primary" type="submit">
+                                                        <i class="fa fa-fw fa-camera"></i>
+                                                        <span>Change Photo</span>
+                                                    </button>
+
+                                                </form>
+
+
+
+                                            </div>
+                                        </div>
+                                        @*<div class="text-center text-sm-right">
+                                                <span class="badge badge-secondary">administrator</span>
+                                                <div class="text-muted"><small>Joined 09 Dec 2017</small></div>
+                                            </div>*@
+                                    </div>
+                                </div>
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item"><a href="" class="active nav-link">Settings</a></li>
+                                </ul>
+                                <div class="tab-content pt-3">
+                                    <div class="tab-pane active">
+
+                                        <form asp-action="Edit" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                            <input type="hidden" name="AvatarUrl" value="@Model.AvatarUrl" />
+                                            <input type="hidden" name="CurrentUserName" value="@Model.CurrentUserName" />
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+
+                                                        <div class="col">
+                                                            <div class=form-group>
+                                                                <label asp-for="UserName" class="control-label"></label>
+                                                                <input asp-for="UserName" class="form-control" />
+                                                                <span asp-validation-for="UserName" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <div class=form-group>
+                                                                <label asp-for="BirthDate" class="control-label"></label>
+                                                                <input asp-for="BirthDate" class="form-control" type="date" />
+                                                                <span asp-validation-for="BirthDate" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row">
+
+                                                        <div class="col">
+                                                            <div class=form-group>
+                                                                <label asp-for="Gender" class="control-label"></label>
+                                                                <select asp-for="Gender" class="form-control" asp-items="Html.GetEnumSelectList<GenderOption>()"></select>
+                                                                <span asp-validation-for="Gender" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label asp-for="PhoneNumber" class="control-label"></label>
+                                                                <input asp-for="PhoneNumber" class="form-control" type="tel" value="@Model.PhoneNumber">
+                                                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label asp-for="Email" class="control-label"></label>
+                                                                <input asp-for="Email" class="form-control" type="email" value="@Model.Email">
+                                                                <span asp-validation-for="Email" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col mb-3">
+                                                            <div class="form-group">
+                                                                <label asp-for="Bio" class="control-label"></label>
+                                                                <textarea asp-for="Bio" name="Bio" class="form-control" rows="5"></textarea>
+                                                                <span asp-validation-for="Bio" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 col-sm-6 mb-3">
+                                                    <div class="mb-2"><b>Change Password</b></div>
+
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class=form-group>
+                                                                <label asp-for="CurrentPassword" class="control-label"></label>
+                                                                <input asp-for="CurrentPassword" class="form-control" type="password" placeholder="••••••" />
+                                                                <span asp-validation-for="CurrentPassword" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class=form-group>
+                                                                <label asp-for="Password" class="control-label"></label>
+                                                                <input asp-for="Password" class="form-control" type="password" placeholder="••••••" />
+                                                                <span asp-validation-for="Password" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class=form-group>
+                                                                <label asp-for="ConfirmPassword" class="control-label"></label>
+                                                                <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder="••••••" />
+                                                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                @*<div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                                                        <div class="mb-2"><b>Keeping in Touch</b></div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <label>Email Notifications</label>
+                                                                <div class="custom-controls-stacked px-2">
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="notifications-blog" checked="">
+                                                                        <label class="custom-control-label" for="notifications-blog">Blog posts</label>
+                                                                    </div>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="notifications-news" checked="">
+                                                                        <label class="custom-control-label" for="notifications-news">Newsletter</label>
+                                                                    </div>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="notifications-offers" checked="">
+                                                                        <label class="custom-control-label" for="notifications-offers">Personal Offers</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                            </div>
+                                            <div class="row">
+                                                <div class="col d-flex justify-content-end">
+                                                    <input class="btn btn-primary" type="submit" value="Save Changes" />
+                                                    @*<button class="btn btn-primary" type="submit">Save Changes</button>*@
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

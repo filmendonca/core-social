@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="d-flex">
+    <nav class="sidebar p-3">
+        <h3>Admin Dashboard</h3>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Products</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Orders</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Settings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Logout</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="main-content flex-grow-1 p-4">
+        <h1>Dashboard Overview</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">Users</div>
+                    <div class="card-body">
+                        <h5 class="card-title">150</h5>
+                        <p class="card-text">Total number of users.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Posts</div>
+                    <div class="card-body">
+                        <h5 class="card-title">75</h5>
+                        <p class="card-text">Total number of products.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-warning mb-3">
+                    <div class="card-header">Orders</div>
+                    <div class="card-body">
+                        <h5 class="card-title">30</h5>
+                        <p class="card-text">Total number of orders placed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2>Recent Activity</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Action</th>
+                    <th scope="col">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>John Doe</td>
+                    <td>Created a new order</td>
+                    <td>2023-10-01</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jane Smith</td>
+                    <td>Updated product information</td>
+                    <td>2023-10-02</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Alice Johnson</td>
+                    <td>Deleted an account</td>
+                    <td>2023-10-03</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,132 @@
+﻿@using DataLayer.Enums;
+
+@model PostVM
+
+@{
+    ViewData["Title"] = "Create a new post";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h4>Create a new post</h4>
+        </p>
+
+        <!--Show error msg-->
+        @if (TempData["Error"] != null)
+        {
+            <div class="col-md-12 alert alert-danger">
+                <span>@TempData["Error"] </span>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-action="Create" enctype="multipart/form-data" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Title" class="control-label"></label>
+                                <input asp-for="Title" type="text" class="form-control" />
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Content" class="control-label"></label>
+                                <input asp-for="Content" type="text" class="form-control" />
+                                <span asp-validation-for="Content" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Topic" class="control-label"></label>
+                                <select asp-for="Topic" class="form-control" asp-items="Html.GetEnumSelectList<TopicName>()"></select>
+                                <span asp-validation-for="Topic" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Visibility" class="control-label"></label>
+                                <select asp-for="Visibility" class="form-control" asp-items="Html.GetEnumSelectList<VisibilityType>()"></select>
+                                <span asp-validation-for="Visibility" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Image" class="control-label"></label>
+                                <input asp-for="Image" type="file" accept=".png, .jpg, .jpeg, .gif" class="form-control" id="Image" name="Image" />
+                                <small id="errorMessage" class="text-danger" style="display: none;"></small>
+                                <span asp-validation-for="Image" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--Buttons-->
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-outline-success float-right" id="submitButton" disabled />
+                        <a class="btn btn-outline-secondary" asp-action="Index">Go Back</a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        const MAX_FILE_SIZE = 3 * 1024 * 1024;
+        const ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif'];
+
+        $("#Image").on("change", function () {
+
+            $('#errorMessage').hide().text('');
+            $('#submitButton').prop('disabled', false);  //Re-enable submit button
+
+            var fileInput = $('#Image')[0];
+            var file = fileInput.files[0];
+
+            //Check if a file is selected
+            if (!file) {
+                $('#errorMessage').text('Please select an image to upload').show();
+                //$('#submitButton').prop('disabled', true);  //Disable submit button
+                //event.preventDefault();  //Prevent form submission
+                return;
+            }
+
+            //Check file size
+            if (file.size > MAX_FILE_SIZE) {
+                $('#errorMessage').text('The file is too large. Maximum allowed size is ' + (MAX_FILE_SIZE / 1024 / 1024) + 'MB').show();
+                //$('#submitButton').prop('disabled', true);  //Disable submit button
+                //event.preventDefault();  //Prevent form submission
+                return;
+            }
+
+            //Check file extension (only .jpg, .jpeg, .png allowed)
+            var fileExtension = file.name.toLowerCase().split('.').pop();
+            if (!ALLOWED_EXTENSIONS.includes('.' + fileExtension)) {
+                $('#errorMessage').text('Only ' + ALLOWED_EXTENSIONS + ' files are allowed').show();
+                //$('#submitButton').prop('disabled', true);  //Disable submit button
+                //event.preventDefault();  //Prevent form submission
+                return;
+            }
+
+            //var output = document.getElementById("ImageUrlPreview");
+            //output.src = $(this).val();
+        })
+
+        //Disable the submit button if no file is selected initially
+        $('#imageUpload').change(function () {
+            // If there is a selected file, re-enable the submit button
+            var fileInput = $(this)[0];
+            //if (fileInput.files.length > 0) {
+            //    $('#submitButton').prop('disabled', false);
+            //}
+            //else {
+            //    $('#submitButton').prop('disabled', true);
+            //}
+        });
+
+    </script>
+}
