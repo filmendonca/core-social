@@ -15,7 +15,7 @@
 
 
 # Ignore uploaded images
-PresentationLayer/wwwroot/img/uploads/*.*
+src/CoreSocial.PresentationLayer/wwwroot/img/uploads/*.*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
