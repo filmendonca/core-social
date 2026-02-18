@@ -20,7 +20,7 @@ namespace PresentationLayer
                     //Save in file (sink)
                     .WriteTo.File(
                         //File path
-                        path: "D:\\CSharp\\Projeto - Social Media Platform\\SocialMediaPlatform\\Logs\\log-.log",
+                        path: "..\\..\\logs\\log-.log",
                         //Timestamp; level of event; message body; new line; exception (optional)
                         outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
                         //create a new log file every day
