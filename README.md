@@ -42,6 +42,16 @@ The application supports three roles:
 
 ## 🏗 Architecture
 
+### Diagram
+
+<p align="center">
+  <img src="docs/images/CoreSocial_App_Architecture.png" alt="Architecture Diagram" width="650"/>
+</p>
+
+<p align="center">
+  <i>Diagram illustrating the dependencies between each layer of the application.</i>
+</p>
+
 CoreSocial follows a layered (n-tier) architecture while remaining a monolithic application under a single solution. The solution is composed of five projects, three of which represent the primary architectural layers:
 
 ### Main Layers
@@ -78,16 +88,12 @@ Responsible for persistence and infrastructure concerns. It contains:
 - Domain-related enums
 - File storage handling logic
 
----
-
 ### Supporting Projects
 
 - **Utils** -
     Contains shared constants, helpers, extensions, and other reusable utilities.
 - **Tests** -
     Contains unit tests focused on validating business logic behavior. Testing is performed using xUnit, Moq, and FluentAssertions.
-
----
 
 ### Patterns
 
@@ -121,12 +127,17 @@ Responsible for persistence and infrastructure concerns. It contains:
 
 ## 📌 Roadmap
 
-- Fix post creation edge cases 
-- Improve avatar upload handling
-- Resolve UI popup rendering inconsistencies
-- Add user warning / banning functionality
-- Add administrative user analytics features
-- Deploy the application to the cloud
+### 🐞 Bug Fixes
+- [ ] Fix post creation edge cases
+- [ ] Improve avatar upload handling
+- [ ] Resolve UI popup rendering inconsistencies
+
+### 🧩 New Features
+- [ ] Add user warning / banning functionality
+- [ ] Add administrative user analytics features
+
+### ☁ Deployment
+- [ ] Deploy the application to the cloud
 
 ## 📖 References
 
@@ -146,7 +157,7 @@ Responsible for persistence and infrastructure concerns. It contains:
 
 ## 🙏 Acknowledgments
 
-Parts of the app UI design were taken and/or adapted from:
+Parts of the UI design were adapted from Bootdey templates:
 - [User profile with friends and chat](https://www.bootdey.com/snippets/view/User-profile-with-friends-and-chat)
 - [Bs4 edit profile page](https://www.bootdey.com/snippets/view/bs4-edit-profile-page)
 
